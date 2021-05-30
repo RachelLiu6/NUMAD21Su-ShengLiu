@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">NUMAD21Su-ShengLiu</string>
+    <string name="about_string">About</string>
+    <string name="no_value_string">No Value</string>
+    <string name="info_string">Name: Sheng Liu\nEmail: liu.sheng1@northeastern.edu
+    </string>
+    <string name="A_string">A</string>
+    <string name="B_string">B</string>
+    <string name="C_string">C</string>
+    <string name="D_string">D</string>
+    <string name="E_string">E</string>
+    <string name="F_string">F</string>
+    <string name="Press">Pressed: </string>
+</resources>
