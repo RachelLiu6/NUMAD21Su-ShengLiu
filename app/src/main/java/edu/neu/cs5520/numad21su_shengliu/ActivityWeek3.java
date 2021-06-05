@@ -1,10 +1,10 @@
 package edu.neu.cs5520.numad21su_shengliu;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 
 public class ActivityWeek3 extends AppCompatActivity{
