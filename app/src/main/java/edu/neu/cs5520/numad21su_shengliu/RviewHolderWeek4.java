@@ -10,11 +10,11 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ReviewHolder extends RecyclerView.ViewHolder{
+public class RviewHolderWeek4 extends RecyclerView.ViewHolder{
     public TextView itemName;
     public TextView itemURL;
 
-    public ReviewHolder (Context context, View itemView, final ItemClickListener listener) {
+    public RviewHolderWeek4(Context context, View itemView, final ItemClickListenerWeek4 listener) {
         super(itemView);
         itemURL = itemView.findViewById(R.id.URL);
         itemName = itemView.findViewById(R.id.item_name);

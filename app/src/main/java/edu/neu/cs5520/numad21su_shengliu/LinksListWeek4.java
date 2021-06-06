@@ -15,13 +15,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-public class LinksCollector extends AppCompatActivity implements Dialog.DialogListener{
+public class LinksListWeek4 extends AppCompatActivity implements GetInputWeek4.DialogListener{
 
     // Creating RecyclerView, Adapter, LayoutManager
-    private ArrayList<ItemCard> itemList = new ArrayList<>();
+    private ArrayList<ItemCardWeek4> itemList = new ArrayList<>();
 
     private RecyclerView recyclerView;
-    private ReviewAdapter reviewAdapter;
+    private RviewAdapterWeek4 reviewAdapter;
     private RecyclerView.LayoutManager rLayoutManager;
     private FloatingActionButton addButton;
 
@@ -33,8 +33,8 @@ public class LinksCollector extends AppCompatActivity implements Dialog.DialogLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_links_collector);
-        context = LinksCollector.this;
+        setContentView(R.layout.activity_links_list_week4);
+        context = LinksListWeek4.this;
 
         init(savedInstanceState);
         addButton = findViewById(R.id.addButton);
@@ -60,7 +60,7 @@ public class LinksCollector extends AppCompatActivity implements Dialog.DialogLi
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                Toast.makeText(LinksCollector.this, "Delete an item", Toast.LENGTH_LONG).show();
+                Toast.makeText(LinksListWeek4.this, "Delete an item", Toast.LENGTH_LONG).show();
                 int position = viewHolder.getLayoutPosition();
                 itemList.remove(position);
 
@@ -70,8 +70,8 @@ public class LinksCollector extends AppCompatActivity implements Dialog.DialogLi
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
-    private void openDialog(ItemCard item, int position, boolean itemExist) {
-        Dialog dialog = new Dialog(item, position, itemExist);
+    private void openDialog(ItemCardWeek4 item, int position, boolean itemExist) {
+        GetInputWeek4 dialog = new GetInputWeek4(item, position, itemExist);
         dialog.show(getSupportFragmentManager(), "first dialog");
     }
 
@@ -104,11 +104,11 @@ public class LinksCollector extends AppCompatActivity implements Dialog.DialogLi
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
 
-        reviewAdapter = new ReviewAdapter(itemList, context);
+        reviewAdapter = new RviewAdapterWeek4(itemList, context);
         // 看好了看好了！！！创建了的这个itemClickListener，然后就给ReviewAdapter用了（详情看reviewAdapter)
         // 然后！！！reviewAdapter也把这个listener传给了ReviewHolder给它用了。所以，这里就是listener老祖宗的发源地
         // for "edit" listener
-        ItemClickListener itemClickListener = new ItemClickListener() {
+        ItemClickListenerWeek4 itemClickListener = new ItemClickListenerWeek4() {
             @Override
             public void onItemClick(int position) {
                 //attributions bond to the item has been changed
@@ -136,7 +136,7 @@ public class LinksCollector extends AppCompatActivity implements Dialog.DialogLi
                 for (int i = 0; i < size; i++) {
                     String name = savedInstanceState.getString(KEY_OF_INSTANCE + i + "0");
                     String url = savedInstanceState.getString(KEY_OF_INSTANCE + i + "1");
-                    itemList.add(new ItemCard(name, url));
+                    itemList.add(new ItemCardWeek4(name, url));
                 }
             }
         }
@@ -158,8 +158,8 @@ public class LinksCollector extends AppCompatActivity implements Dialog.DialogLi
         // dialog---get user's input
         // create an item card object with user's info
         // 传进去itemList.add()
-        itemList.add(0, new ItemCard(webName, URL));
-        Toast.makeText(LinksCollector.this, "Item added successfully", Toast.LENGTH_LONG).show();
+        itemList.add(0, new ItemCardWeek4(webName, URL));
+        Toast.makeText(LinksListWeek4.this, "Item added successfully", Toast.LENGTH_LONG).show();
 
         // it's a must! Otherwise,  Recycler view won't be notified
         reviewAdapter.notifyItemInserted(0);

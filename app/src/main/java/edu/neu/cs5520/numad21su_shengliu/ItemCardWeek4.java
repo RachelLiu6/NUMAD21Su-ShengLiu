@@ -1,11 +1,11 @@
 package edu.neu.cs5520.numad21su_shengliu;
 
-public class ItemCard implements ItemClickListener {
+public class ItemCardWeek4 implements ItemClickListenerWeek4 {
     private String name;
     private String URL;
 
     // Constructor
-    public ItemCard(String name, String URL) {
+    public ItemCardWeek4(String name, String URL) {
         this.name = name;
         this.URL = URL;
     }

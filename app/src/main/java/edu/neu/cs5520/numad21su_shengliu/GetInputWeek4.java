@@ -10,19 +10,19 @@ import android.widget.EditText;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
-public class Dialog extends AppCompatDialogFragment {
+public class GetInputWeek4 extends AppCompatDialogFragment {
     private EditText editTextWebsiteName;
     private EditText editTextURL;
     private DialogListener listener;
 
     private boolean itemExist;
     // add: null item, edit: not null
-    private ItemCard currentItem;
+    private ItemCardWeek4 currentItem;
     // add: -1, edit: real position
     private int currentPosition;
 
     // Constructor
-    public Dialog(ItemCard item, int position, boolean itemExist) {
+    public GetInputWeek4(ItemCardWeek4 item, int position, boolean itemExist) {
         this.currentItem = item;
         this.currentPosition = position;
         this.itemExist = itemExist;
@@ -33,7 +33,7 @@ public class Dialog extends AppCompatDialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.layout_dialog, null);
+        View view = inflater.inflate(R.layout.layout_get_input_week4, null);
 
         String title;
 

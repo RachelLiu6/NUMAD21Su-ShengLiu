@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
     //week4 code
     public void openLinkCollector() {
-        Intent intent = new Intent(this, LinksCollector.class);
+        Intent intent = new Intent(this, LinksListWeek4.class);
         startActivity(intent);
     }
 }
