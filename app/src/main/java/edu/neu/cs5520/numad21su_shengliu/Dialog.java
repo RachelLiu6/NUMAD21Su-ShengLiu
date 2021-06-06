@@ -15,6 +15,8 @@ public class Dialog extends AppCompatDialogFragment {
     private EditText editTextURL;
     private DialogListener listener;
 
+    private boolean firstTime;
+
     @Override
     public AlertDialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

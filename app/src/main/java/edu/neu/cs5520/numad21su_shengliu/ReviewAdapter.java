@@ -1,10 +1,13 @@
 package edu.neu.cs5520.numad21su_shengliu;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.URLUtil;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,6 +16,7 @@ import java.util.ArrayList;
 public class ReviewAdapter extends RecyclerView.Adapter<ReviewHolder>{
     private final ArrayList<ItemCard> itemList;
     private ItemClickListener listener;
+    Context context;
 
     @Override
     public ReviewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -21,8 +25,9 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewHolder>{
     }
 
     //Constructor
-    public ReviewAdapter(ArrayList<ItemCard> itemList) {
+    public ReviewAdapter(ArrayList<ItemCard> itemList, Context context) {
         this.itemList = itemList;
+        this.context = context;
     }
 
     public void setOnItemClickListener(ItemClickListener listener) {
@@ -46,8 +51,15 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewHolder>{
             @Override
             public void onClick(View view) {
                 final String siteUrl = currentItem.getURL();
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(siteUrl));
-//                context.startActivity
+                if (URLUtil.isValidUrl(siteUrl)) {
+                    // url valid, jump to URl
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(siteUrl));
+                    context.startActivity(browserIntent);
+                } else {
+                    // url invalid, notify user
+                    Toast.makeText(context, "This URL is invalid, please re-enter the url!", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 

@@ -1,5 +1,6 @@
 package edu.neu.cs5520.numad21su_shengliu;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -24,13 +25,16 @@ public class LinksCollector extends AppCompatActivity implements Dialog.DialogLi
     private RecyclerView.LayoutManager rLayoutManager;
     private FloatingActionButton addButton;
 
+
     private static final String KEY_OF_INSTANCE = "KEY_OF_INSTANCE";
     private static final String NUMBER_OF_ITEMS = "NUMBER_OF_ITEMS";
+    private static Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_links_collector);
+        context = LinksCollector.this;
 
         init(savedInstanceState);
         addButton = findViewById(R.id.addButton);
@@ -101,7 +105,7 @@ public class LinksCollector extends AppCompatActivity implements Dialog.DialogLi
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
 
-        reviewAdapter = new ReviewAdapter(itemList);
+        reviewAdapter = new ReviewAdapter(itemList, context);
         // 看好了看好了！！！创建了的这个itemClickListener，然后就给ReviewAdapter用了（详情看reviewAdapter)
         // 然后！！！reviewAdapter也把这个listener传给了ReviewHolder给它用了。所以，这里就是listener老祖宗的发源地
         ItemClickListener itemClickListener = new ItemClickListener() {
@@ -110,6 +114,8 @@ public class LinksCollector extends AppCompatActivity implements Dialog.DialogLi
                 //attributions bond to the item has been changed
                 // 通过位置position，get到了itemList里面的itemcard,然后调用itemcard的onItemClick()
                 itemList.get(position).onItemClick(position);
+
+                openDialog();
 
                 reviewAdapter.notifyItemChanged(position);
             }
@@ -132,17 +138,25 @@ public class LinksCollector extends AppCompatActivity implements Dialog.DialogLi
                     String URL = savedInstanceState.getString(KEY_OF_INSTANCE + i + "1");
                 }
             }
-        } else {
-            ItemCard item1 = new ItemCard("Google", "www.google.com");
-            ItemCard item2 = new ItemCard("Youtube", "www.youtube.com");
+        } /*else {
+            ItemCard item1 = new ItemCard("Google", "https://www.google.com");
+            ItemCard item2 = new ItemCard("Youtube", "https://www.youtube.com");
             itemList.add(item1);
             itemList.add(item2);
-        }
+        }*/
     }
 
     @Override
     public void transferInfo(String webName, String URL) {
         addItem(webName, URL);
+
+//        if (firstTime) {
+//            addItem
+//        } else {
+//            itemList.get(position).setName(webName)
+//            itemList.set(position).setUrl(URL)
+//            reviewAdapter.notifyChange
+//        }
     }
 
 
