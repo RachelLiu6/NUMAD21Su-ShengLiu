@@ -105,8 +105,7 @@ public class LinksListWeek4 extends AppCompatActivity implements GetInputWeek4.D
         recyclerView.setHasFixedSize(true);
 
         reviewAdapter = new RviewAdapterWeek4(itemList, context);
-        // 看好了看好了！！！创建了的这个itemClickListener，然后就给ReviewAdapter用了（详情看reviewAdapter)
-        // 然后！！！reviewAdapter也把这个listener传给了ReviewHolder给它用了。所以，这里就是listener老祖宗的发源地
+
         // for "edit" listener
         ItemClickListenerWeek4 itemClickListener = new ItemClickListenerWeek4() {
             @Override
@@ -157,11 +156,9 @@ public class LinksListWeek4 extends AppCompatActivity implements GetInputWeek4.D
     public void addItem(String webName, String URL) {
         // dialog---get user's input
         // create an item card object with user's info
-        // 传进去itemList.add()
         itemList.add(0, new ItemCardWeek4(webName, URL));
         Toast.makeText(LinksListWeek4.this, "Item added successfully", Toast.LENGTH_LONG).show();
 
-        // it's a must! Otherwise,  Recycler view won't be notified
         reviewAdapter.notifyItemInserted(0);
     }
 

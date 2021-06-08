@@ -33,11 +33,7 @@ public class RviewAdapterWeek4 extends RecyclerView.Adapter<RviewHolderWeek4>{
 
     @Override
     public void onBindViewHolder(RviewHolderWeek4 holder, int position) {
-        // 更新当前viewHolder
-        // LayoutManager请求某个位置的item，便去ViewHolder的两个地方找。
-        //  在Cache,就啥都不用调动，直接return.
-        //  不在Cashe, 在Recycled Pool，调动onBindViewHolder（），就像我们APP，load过的数据，
-        //  回看不用重新load，但数据有可能变动了，所以view要进行更新。
+
         ItemCardWeek4 currentItem = itemList.get(position);
 
         holder.itemName.setText(currentItem.getName());
