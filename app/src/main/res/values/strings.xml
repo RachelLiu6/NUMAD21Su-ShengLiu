@@ -15,5 +15,8 @@
     <string name="Press">Pressed: </string>
     <string name ="item_name">Website Name</string>
     <string name ="URL">URL starting with https://</string>
+    <string name="location">Your current location: </string>
+    <string name="locator">Location Getter</string>
+    <string name="getLocation">Locator</string>
 
 </resources>

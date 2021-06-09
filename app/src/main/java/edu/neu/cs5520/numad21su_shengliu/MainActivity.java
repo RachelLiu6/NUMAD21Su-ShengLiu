@@ -14,11 +14,13 @@ public class MainActivity extends AppCompatActivity {
 
     private Button button;
     private Button buttonLink; // week4's button
+    private Button buttonLocation; // week5's button
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        buttonLocation = (Button) findViewById(R.id.buttonLocation);
         button = (Button) findViewById(R.id.launcher2);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,6 +36,13 @@ public class MainActivity extends AppCompatActivity {
                 openLinkCollector();
             }
         });
+
+        buttonLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openLocator();
+            }
+        });
     }
 
     //week3 code
@@ -42,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    //Week1 code
     public void introduceMyself(View view) {
         TextView textView = findViewById(R.id.myInfo);
         textView.setVisibility(View.VISIBLE);
@@ -50,6 +60,12 @@ public class MainActivity extends AppCompatActivity {
     //week4 code
     public void openLinkCollector() {
         Intent intent = new Intent(this, LinksListWeek4.class);
+        startActivity(intent);
+    }
+
+    //week5 code
+    private void openLocator() {
+        Intent intent = new Intent(this, LocatorWeek5.class);
         startActivity(intent);
     }
 }
