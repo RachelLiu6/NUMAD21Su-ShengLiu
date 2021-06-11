@@ -26,7 +26,7 @@ public class LocatorWeek5 extends AppCompatActivity implements LocationListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_locator_week5);
 
-        text = (TextView) findViewById(R.id.location);
+        text = (TextView) findViewById(R.id.curLocation);
         button = (Button) findViewById(R.id.locationButton);
 
         if(savedInstanceState != null) {
@@ -37,13 +37,13 @@ public class LocatorWeek5 extends AppCompatActivity implements LocationListener 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                checkPermit();
+                checkPermissions();
                 getLocation();
             }
         });
     }
 
-    private void checkPermit() {
+    private void checkPermissions() {
 
         if (ContextCompat.checkSelfPermission(LocatorWeek5.this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -64,7 +64,7 @@ public class LocatorWeek5 extends AppCompatActivity implements LocationListener 
 
         try {
             locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 6000, 10, LocatorWeek5.this);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 10, LocatorWeek5.this);
         } catch (Exception e) {
             e.printStackTrace();
         }
