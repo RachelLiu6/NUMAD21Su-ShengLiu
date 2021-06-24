@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     private Button button;
     private Button buttonLink; // week4's button
     private Button buttonLocation; // week5's button
+    private Button webButton; //week7's button
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         buttonLocation = (Button) findViewById(R.id.buttonLocation);
         button = (Button) findViewById(R.id.launcher2);
+        webButton = (Button) findViewById(R.id.webService);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -41,6 +43,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 openLocator();
+            }
+        });
+
+        webButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openWebService();
             }
         });
     }
@@ -66,6 +75,12 @@ public class MainActivity extends AppCompatActivity {
     //week5 code
     private void openLocator() {
         Intent intent = new Intent(this, LocatorWeek5.class);
+        startActivity(intent);
+    }
+
+    //week7 code
+    private void openWebService() {
+        Intent intent = new Intent(this, WebServiceWeek7.class);
         startActivity(intent);
     }
 }

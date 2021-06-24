@@ -12,6 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_ls_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NUMAD21SuShengLiu">
+        <activity android:name=".WebServiceWeek7"></activity>
         <activity android:name=".LocatorWeek5"></activity>
         <activity android:name=".LinksListWeek4"></activity>
         <activity android:name=".ActivityWeek3"></activity>
