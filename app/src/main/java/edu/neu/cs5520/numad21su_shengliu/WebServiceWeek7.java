@@ -4,7 +4,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,7 +24,6 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 
@@ -35,49 +33,34 @@ import java.util.Scanner;
 public class WebServiceWeek7 extends AppCompatActivity {
     private static final String TAG ="WebServiceActivity";
 
-    private ListView mainList;
+    private ListView listView;
     private EditText mWebDestEditText;
-    private Button loader;
+    private Button enter;
     private TextView progressText;
     private ProgressBar progressBar;
-    private ArrayList<ListItemWeek7> arrayList;
+    private ArrayList<String> arrayList;
 
     private static final String KEY_OF_INSTANCE = "KEY_OF_INSTANCE";
     private static final String NUMBER_OF_ITEMS = "NUMBER_OF_ITEMS";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i(TAG, "Starting...");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_service_week7);
 
 
         mWebDestEditText = (EditText) findViewById(R.id.editText);
-        loader = (Button) findViewById(R.id.loadButton);
-        mainList = (ListView) findViewById(R.id.listView);
+        enter = (Button) findViewById(R.id.loadButton);
+        listView = (ListView) findViewById(R.id.listView);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressBar.setVisibility(View.INVISIBLE);
         progressText = (TextView) findViewById(R.id.textView2);
 
-        arrayList = new ArrayList<ListItemWeek7>();
-        mainList.setAdapter(new ArrayAdapter<ListItemWeek7>(this, android.R.layout.simple_list_item_2,
-                android.R.id.text1,
-                arrayList) {
-
-            @Override
-            public View getView(int pos, View convert, ViewGroup group) {
-                View v = super.getView(pos, convert, group);
-                TextView t1 = (TextView) v.findViewById(android.R.id.text1);
-                TextView t2 = (TextView) v.findViewById(android.R.id.text2);
-                t1.setText(getItem(pos).getCategory());
-                t2.setText(getItem(pos).getDetails());
-
-                return v;
-            }
-        });
+        arrayList = new ArrayList<String>();
+        listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayList));
         initializeData(savedInstanceState);
 
-        loader.setOnClickListener(new View.OnClickListener() {
+        enter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 callWebserviceButtonHandler(view);
@@ -95,11 +78,9 @@ public class WebServiceWeek7 extends AppCompatActivity {
         int size = arrayList == null ? 0 : arrayList.size();
         outState.putInt(NUMBER_OF_ITEMS, size);
 
-        // generate unique key for each item
         for (int i = 0; i < size; i++) {
-            // put country name into instance
-            outState.putString(KEY_OF_INSTANCE + i + "0", arrayList.get(i).getCategory());
-            outState.putString(KEY_OF_INSTANCE + i + "1", arrayList.get(i).getDetails());
+            // put domains into instance
+            outState.putString(KEY_OF_INSTANCE + i + "0", arrayList.get(i));
         }
         super.onSaveInstanceState(outState);
 
@@ -113,9 +94,8 @@ public class WebServiceWeek7 extends AppCompatActivity {
 
                 // Retrieve keys we stored in the instance
                 for (int i = 0; i < size; i++) {
-                    String country = savedInstanceState.getString(KEY_OF_INSTANCE + i + "0");
-                    String capital = savedInstanceState.getString(KEY_OF_INSTANCE + i + "1");
-                    arrayList.add(new ListItemWeek7(country, capital));
+                    String domain = savedInstanceState.getString(KEY_OF_INSTANCE + i + "0");
+                    arrayList.add(domain);
                 }
             }
         }
@@ -123,40 +103,36 @@ public class WebServiceWeek7 extends AppCompatActivity {
 
 
 
-    private class PingWebServiceTask extends AsyncTask<String, ListItemWeek7, String> {
-        private ArrayAdapter<ListItemWeek7> adapter;
+    private class PingWebServiceTask extends AsyncTask<String, String, String> {
+        private ArrayAdapter<String> adapter;
 
-        @Override
-        protected void onProgressUpdate(ListItemWeek7... values) {
-            Log.i(TAG, "Making Progress...");
-            Log.i(TAG, String.valueOf(Arrays.stream(values).count()));
-            adapter.add(values[0]);
-
-        }
 
         @Override
         protected void onPreExecute() {
-            Log.i(TAG, "onPreExecute: " + Thread.currentThread().getName());
-            progressText.setText("Making Progress...");
+            progressText.setText("Loading...");
             progressBar.setVisibility(View.VISIBLE);
-            adapter = (ArrayAdapter<ListItemWeek7>) mainList.getAdapter();
+            adapter = (ArrayAdapter<String>) listView.getAdapter();
             adapter.clear();
         }
 
         @Override
         protected void onPostExecute(String str) {
             // pass the string from doInBackground()
-            progressText.setText("Complete!");
+            progressText.setText("Searching Done");
             progressBar.setVisibility(View.INVISIBLE);
+        }
 
+        @Override
+        protected void onProgressUpdate(String... strings) {
+            adapter.add(strings[0]);
 
         }
+
         @Override
         protected String doInBackground(String... strings) {
-            Log.i(TAG, "Entered Country: " + strings[0]);
             for (int i = 0; i < 10; i++) {
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(150);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -164,24 +140,23 @@ public class WebServiceWeek7 extends AppCompatActivity {
             try {
                 URL url = new URL("https://api.domainsdb.info/v1/domains/search?domain=" + strings[0]);
 
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestMethod("GET");
-                conn.setDoInput(true);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");
+                connection.setDoInput(true);
 
-                conn.connect();
+                connection.connect();
 
-                //Read response
-                InputStream inputStream = conn.getInputStream();
+                // Get response
+                InputStream inputStream = connection.getInputStream();
                 final String resp = convertStreamToString(inputStream);
-                JSONArray jsonArray = new JSONArray(resp);
+                JSONObject jsonObject = new JSONObject(resp);
+                JSONArray jsonArray = (JSONArray) jsonObject.get("domains");
                 for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jsonObject;
-                    jsonObject = jsonArray.getJSONObject(i);
-                    publishProgress(new ListItemWeek7(String.valueOf(jsonObject.get("name")),
-                            String.valueOf(jsonObject.get("capital"))));
-
+                    JSONObject domain = jsonArray.getJSONObject(i);
+                    String res = domain.getString("domain");
+                    publishProgress(res);
                 }
-                return null;
+
             } catch (MalformedURLException e) {
                 Log.e(TAG, "MalformedURLException");
                 e.printStackTrace();;
